@@ -1,0 +1,87 @@
+.include "m16def.inc"
+
+.def pi = R3
+.def Xi = R4
+.def Yi = R6
+.def zero = R10
+.def temp_high_1 = R8
+.def temp_high_2 = R9
+.def temp_high_3 = R12
+.def temp_low = R13
+.def result_high_3 = R19
+.def result_high_2 = R20
+.def result_high_1 = R21
+.def result_low_1 = R22
+.def result_low_2 = R23
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+rjmp INIT
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi R18, 12
+	clr zero
+
+	;0.5*X
+	lsr Xi
+	ror R5
+
+	;12*Y
+MULTIPLY:
+
+	add Yi, Yi
+	adc R7, zero
+	
+	dec R18
+	brne MULTIPLY
+
+	lsl pi
+	rol R11
+	lsl pi
+	rol R11
+
+	;0,5*X + 12*Y + pi
+	add R5, pi
+	adc Xi, Yi
+	adc R7, zero
+
+	;2*(0,5*X + 12*Y + pi) + 0,5*(0,5*X + 12*Y + pi)
+	clr temp_high_3
+	mov temp_high_2, R7
+	mov temp_high_1, Xi
+	mov temp_low, R13
+
+	lsl temp_low
+	rol temp_high_1
+	rol temp_high_2
+	rol temp_high_3
+
+	clr result_high_3
+	mov result_high_2, R7
+	mov result_high_1, Xi
+	mov result_low_1, R13
+	clr result_low_2
+
+	lsr result_high_2
+	ror result_high_1
+	ror result_low_1
+	ror result_low_2
+
+	add result_low_1, temp_low
+	adc result_high_1, temp_high_1
+	adc result_high_2, temp_high_2
+	adc result_high_3, temp_high_3
+	
+	ret
+
+	
+	
+

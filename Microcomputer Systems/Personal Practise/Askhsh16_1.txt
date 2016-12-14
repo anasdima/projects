@@ -1,0 +1,24 @@
+.include "m16def.inc"
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+	
+	ldi R16, 48
+	ldi R17, 190
+
+	andi R16, 0b11110000
+	andi R17, 0b00001111
+
+	eor R16, R17
+	nop
+
+

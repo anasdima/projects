@@ -1,0 +1,90 @@
+.include "m16def.inc"
+
+.def prototype_init_address_low = R3
+.def prototype_init_address_high = R4
+.def M = R5
+.def N = R6
+.def SRAM_init_low = R7
+.def SRAM_init_high = R8
+.def temp = R9
+.def zero = R10
+.def flag = R19
+.def counter = R17
+.def counter_2 = R18
+.def address_low = R19
+.def address_high = R20
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+rjmp INIT
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	mov XL, SRAM_init_low
+	mov XH, SRAM_init_high
+
+	lsl prototype_init_address_low
+	rol prototype_init_address_high
+
+	mov ZL, prototype_init_address_low
+	mov ZH, prototype_init_address_high
+
+	clr counter
+	mov counter_2, M
+	clr zero
+
+SCAN:
+
+	clr flag
+
+	ld R0, X+
+	lpm R1, Z+
+	inc counter
+	cp R0, R1
+	brne RESET
+	cp counter, N
+	brne SCAN
+	ldi flag, 1
+	rjmp EXIT
+
+RESET:
+
+	mov XL, SRAM_init_low
+	mov XH, SRAM_init_high
+
+	mov temp, N
+	sub temp, counter
+	add ZL, temp
+	adc ZH, zero
+
+	clr counter
+	dec counter_2
+	brne SCAN
+
+EXIT:
+
+	cpi flag, 1
+	breq SUCCESS
+	ldi address_low, LOW($FF)
+	ldi address_high, HIGH($FF)
+
+	ret
+
+SUCCESS:
+	
+	sub ZL, M
+	sbc ZH, zero
+
+	mov address_low, ZL
+	mov address_high, ZH
+	
+	ret
+	
+

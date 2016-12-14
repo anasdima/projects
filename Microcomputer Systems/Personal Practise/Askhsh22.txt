@@ -1,0 +1,47 @@
+.include "m16def.inc"
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+rjmp INIT
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	clr R3
+	out DDRD, R3
+	in R4, PORTD
+
+	cp R0, R4
+	brcc LESSER
+	breq EQUAL
+
+GREATER: ; R4>R0
+
+	add R1, R2
+
+	ret
+
+LESSER: ;R4<R0
+
+	sub R1, R2
+
+	ret
+
+EQUAL: ;R4=R0
+
+	and R1, R2
+
+	ldi R16, 255
+	out DDRB, R16
+	out PORTB, R1
+
+	ret
+
+	
+

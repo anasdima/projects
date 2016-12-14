@@ -1,0 +1,23 @@
+.include "m16def.inc"
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi R17, 6 ;x
+	ldi R18, 9 ;y
+
+	ldi XL, LOW($100)
+	ldi XH, HIGH($100)
+
+	st X+. R17
+	st X, R18
+
+	ld X, R1 ;y
+	ld -X, R0  ;x
+
+
+

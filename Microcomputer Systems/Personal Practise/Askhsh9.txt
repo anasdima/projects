@@ -1,0 +1,24 @@
+.include "m16def.inc"
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi R16, $69
+	ldi R17, $9B
+	ldi R18, $A8
+
+	ldi R19, $BC
+	ldi R20, $A9
+	ldi R21, $F9
+
+	add R16, R19
+	adc R17, R20
+	adc R18, R21
+
+
+
+

@@ -1,0 +1,34 @@
+.include "m16def.inc"
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	clr R0
+	ldi R16, 0
+	ldi R17, 100 ; number
+	ldi R18, 7
+	ldi R19, 0
+
+	lsl R17 ; 7-bit number
+
+COUNT:
+
+	lsl R17
+	adc R0, R19
+
+	dec R18
+	brne COUNT
+
+	sbrc R0, 0
+	ldi R16, 1
+
+	ret

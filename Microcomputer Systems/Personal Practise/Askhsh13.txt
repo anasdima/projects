@@ -1,0 +1,39 @@
+.include "m16def.inc"
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi R16, 255
+	out DDRB, R16
+
+	ldi R16, 0
+	out DDRD, R16
+
+	ldi XL, 0
+	ldi XH, 0
+
+	ldi R16, 8
+
+WAIT_PUSH:
+
+	sbis PIND, 7
+	rjmp WAIT_PUSH
+
+WAIT_RELEASE:
+
+	sbic PIND, 7
+	rjmp WAIT_RELEASE
+
+	ld r8, X+
+	out PORTB, r8
+
+	dec R16
+	brne WAIT_PUSH
+
+
+
+	

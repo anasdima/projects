@@ -1,0 +1,63 @@
+.include "m16def.inc"
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+rjmp INIT
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	clr R16
+	out DDRD, R16
+
+	ldi R16, 255
+	out DDRB, R16
+
+WAIT_PUSH:
+
+	sbis PIND, 0
+	rjmp WAIT_PUSH
+
+WAIT_RELEASE:
+
+	sbic PIND, 0
+	rjmp WAIT_RELEASE
+
+	in R17, PIND
+	cbr R17, 1
+	
+	ldi R16, 7
+	clr R1
+
+	mov R0, R17
+
+COUNT:
+
+	lsl R0
+	brcc SKIP
+	inc R1
+
+SKIP:
+	
+	dec R16
+	brne COUNT
+
+	sbrs R1, 0
+	cbr R17, 1
+	sbr R17, 1
+
+	out PORTB, R17
+
+	ret
+	
+
+
+
+	
+

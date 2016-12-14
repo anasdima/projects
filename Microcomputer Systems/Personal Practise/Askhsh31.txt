@@ -1,0 +1,30 @@
+.include "m16def.inc"
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+rjmp INIT
+
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+	
+	mov R17, R16
+	andi R17, 0b00000010
+	mov R18, R16
+	andi R18, 0b00001000
+	and R17, R18
+	
+	mov R19, R16
+	andi R19, 0b00010000
+	mov R20, R16
+	andi R20, 0b00100000
+	or R19, R20
+
+	eor R17, R19
+

@@ -1,0 +1,181 @@
+.include "m16def.inc"
+
+.def a = R2
+.def b = R3
+.def c = R4
+.def offset = R5
+.def flag = R6
+.def a_neg = R7
+.def b_neg = R8
+.def result_low = R9
+.def result_high_1 = R10
+.def result_high_2 = R11
+.def result_high_3 = R23
+.def temp = R12
+.def zero = R13
+.def Xi = R17
+.def Yi = R18
+.def sin2a = R19
+.def sinb = R20
+.def sinc = R21
+.def one = R22
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+rjmp INIT
+
+;To megisto apotelesma mporei na einai 127 + (127*sqrt(2)/2) + 127*127*1 = 16345.8025...
+;ara ftanoun 4 kataxwrhtes, 1 gia to dekadiko kommati kai 3 gia to akeraio. To akeraio se symplhrwma tou
+;2 me 2 kataxwrhtes xwraei 2^15 = 32678 noumera. omws 32678/2= 16339 pou den eparkei. Ara gi auto xreiazontai 4
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi XL, LOW($100)
+	ldi XH, HIGH($100)
+
+	clr zero
+	ldi R23, 90
+
+	ldi one, 1
+
+	lsl a ;a cannot go over 90, no overflow
+	brcc START
+	mov a_neg, one
+
+START:
+
+	clr flag
+
+	cp a, zero
+	brne SKIP_A_1 ;not 0
+	clr sin2a
+	mov flag, one
+
+SKIP_A_1:
+
+	cp a, R23
+	brne SKIP_A_2 ;not 90
+	mov sin2a, one
+	mov flag, one
+
+SKIP_A_2:
+
+	cp flag, zero
+	brne SKIP_A_3
+	mov offset, a
+	rcall SIN
+	mov sin2a, temp
+
+SKIP_A_3:
+
+	; X*sin2a
+	mulsu Xi, sin2a
+	mov result_low, R0 ;R0 is all fractional
+	mov result_high_1, R1
+
+	cp flag, zero
+	breq NEXT_1 ;a not negative
+	com result_high_2
+	neg result_high_1
+
+NEXT_1:
+
+	clr flag
+
+	lsl b
+	brcc SKIP_B_1
+	mov b_neg, one
+
+SKIP_B_1:
+
+	lsr b
+
+	cp b, zero
+	brne SKIP_B_2
+	mov sinb, one
+	mov flag, one
+
+SKIP_B_2:
+
+	cp flag, zero
+	brne SKIP_B_3
+	mov offset, b
+	rcall SIN
+	mov sinb, temp
+
+SKIP_B_3:
+
+	;X*sin2a - Y*sinb
+	mulsu Yi, sinb
+	sbrc flag, 0
+	neg R1 ;b negative
+
+	sub result_low, R0
+	sbc result_high_1, R1
+	sbc result_high_2, R2
+
+	clr flag
+
+	cp c, zero
+	brne SKIP_C_1
+	mov sinc, zero
+	mov flag, one
+
+SKIP_C_1:
+
+	cp c, R23
+	brne SKIP_C_3
+	clr sinc
+	mov flag, one
+
+SKIP_C_2:
+
+	cp flag, zero
+	brne SKIP_C_3
+	mov offset, c
+	rcall SIN
+	mov sinc, temp
+
+SKIP_C_3:
+
+	;X*sin2a - Y*sinb + X*Y*sinc
+	muls Xi, Yi
+	mov R14, R0
+	mov R15, R1
+
+	;first registers no longer needed
+	mul R14, sinc
+	mov R2, R0
+	mov R3, R1
+
+	mul R15, sinc
+	mov R4, R0
+	mov R5, R1
+
+	add R2, R4
+	adc R3, R5
+	adc R6, zero
+
+	add result_low, R2
+	adc result_high_1, R3
+	adc result_high_2, R6
+	adc result_high_3, zero
+
+	ret
+
+SIN:
+	
+	add XL, offset
+	ld temp, X
+	ldi XL, LOW($100)
+	ldi XH, HIGH($100)
+	ret
+	
+

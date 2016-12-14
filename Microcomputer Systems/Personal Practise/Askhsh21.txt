@@ -1,0 +1,34 @@
+.include "m16def.inc"
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+rjmp INIT
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi XL, LOW($100)
+	ldi XH, HIGH($100)
+	
+	ldi R24, 0
+	ldi R25, 1
+	clr R0
+
+CHECK:
+
+	ld R1, X+
+	sbrc R1, 0
+	inc R0
+
+	sbiw R25:R24, 1
+	brne CHECK 
+
+	ldi R16, 255
+	out DDRB, R16
+	out PORTB, R1

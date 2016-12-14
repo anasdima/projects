@@ -1,0 +1,35 @@
+.include "m16def.inc"
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi R16, 255
+	out DDRB, R16
+	
+	ldi R16, 0
+	out PORTB, R16
+
+	ldi XL, LOW($100)
+	ldi XH, HIGH($100)
+
+	ldi R16, 64
+	ldi R17, 0
+
+LOAD:
+
+	ld R0, X+
+	sbrc R0, 4
+	inc R17
+
+	dec R16
+	brne LOAD
+
+	out PORTB, R0
+
+
+
+

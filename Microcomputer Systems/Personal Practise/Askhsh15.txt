@@ -1,0 +1,33 @@
+.include "m16def.inc"
+
+.DSEG
+.org $0100
+.CSEG
+.org $0000
+
+INIT:
+
+	ldi R16, LOW(RAMEND)
+	out SPL, R16
+	ldi R16, HIGH(RAMEND)
+	out SPH, R16
+
+	ldi XL, LOW($100)
+	ldi XH, HIGH($100)
+
+	ldi R16, 100 ; 100 SRAM elements
+	clr R17 ; negative elements counter
+	clr R18	; odd elements counter
+
+CHECK:
+
+	ld R0, X+
+
+	sbrc R0, 7
+	inc R17
+	sbrc R0, 0
+	inc R18
+
+	dec R16
+	brne CHECK
+
