@@ -1,0 +1,27 @@
+ADTREE
+
+4.3-type-binfbp-sibsp-nop	83.37
+4.5-type-sibsp-nofbp-nopa	83.35
+4.4-type2-sibsp-noparch		83.23
+4.1-type-sibsp-parch-nofb	83
+
+BFTREE
+
+2.3-type-fbp-nosibsp-nopa	83.1
+
+J48/J48Graft
+
+4.1-type-sibsp-parch-nofb	83.25
+
+RANDOMFOREST
+
+4.5-type-sibsp-nofbp-nopa 	83.13
+
+SMO
+
+2.4-type-nofbp				82.22
+
+LibSVM
+
+2.4-type-nofbp				83.07
+

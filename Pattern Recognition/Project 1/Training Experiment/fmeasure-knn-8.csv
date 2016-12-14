@@ -1,0 +1,81 @@
+Tester:     weka.experiment.PairedCorrectedTTester
+Analysing:  Weighted_avg_F_measure
+Datasets:   65
+Resultsets: 1
+Confidence: 0.05 (two tailed)
+Sorted by:  -
+Date:       11/23/14 8:33 PM
+
+
+Dataset,[1]
+1.fbp,0.78
+2.0-type-fbp,0.82
+2.1-type-fbp-nosibsp-nopa,0.81
+2.10-type-nofbp-noparch,0.82
+2.11-type-nofbp-noembarke,0.82
+2.2-type-fbp-noembarked,0.83
+2.3-type-fbp-nosibsp-nopa,0.81
+2.4-type-nofbp,0.82
+2.5-type-nofbp-noembarked,0.82
+2.6-type-nofbp-nosibsp-no,0.80
+2.7-type-nofbp-nosibsp-no,0.77
+2.8-type-fbp-noparch,0.81
+2.9-type-fbp-noembarked-n,0.81
+3.0-type-fbp-company,0.81
+3.1-type-company-nofbp,0.81
+3.2-type-fbp-company-noem,0.81
+3.3-type-company-nofbp-no,0.80
+4.0-type-fbp-sibsp,0.82
+4.1-type-sibsp-parch-nofb,0.82
+4.2-type-fbp-sibsp-noemba,0.84
+4.3-type-sibsp-parch-nofb,0.83
+4.4-type-fbp-sibsp-noparc,0.81
+4.5-type-sibsp-nofbp-nopa,0.81
+4.6-type-fbp-sibsp-noemba,0.83
+4.7-type-sibsp-nofbp-noem,0.80
+5.0-type-fbp-sibsp-deck,0.81
+5.1-type-sibsp-deck-nofbp,0.80
+5.2-type-fbp-sibsp-deck-n,0.82
+5.3-type-sibsp-deck-noemb,0.77
+5.4-type-fbp-sibsp-deck-n,0.79
+5.5-type-sibsp-deck-nofbp,0.80
+5.6-type-fbp-sibsp-deck-n,0.82
+5.7-type-sibsp-deck-noemb,0.79
+2.4-type2,0.82
+2.5-type2-noembarked,0.82
+2.6-type2-nosibsp-noparch,0.80
+2.7-type2-nosibsp-noparch,0.77
+2.8-type2-noparch,0.81
+3.1-type2-company,0.80
+3.3-type2-company-noembar,0.80
+4.1-type2-sibsp,0.82
+4.3-type2-sibsp-noembarke,0.82
+4.4-type2-sibsp-noparch,0.81
+4.5-type2-sibsp-noparch-n,0.80
+5.1-type2-sibsp-deck,0.80
+5.3-type2-sibsp-deck-noem,0.77
+5.5-type2-sibsp-deck-nopa,0.80
+5.7-type2-sibsp-deck-noem,0.79
+1.binfbp,0.77
+2.0-type-binfbp,0.82
+2.1-type-binfbp-nosibsp-n,0.77
+2.2-type-binfbp-noembarke,0.82
+2.3-type-binfbp-nosibsp-n,0.80
+2.4-type-binfbp-noparch,0.81
+2.5-type-binfbp-noembarke,0.82
+3.0-type-binfbp-company,0.81
+3.2-type-binfbp-company-n,0.80
+4.0-type-binfbp-sibsp,0.82
+4.2-type-binfbp-sibsp-noe,0.83
+4.3-type-binfbp-sibsp-nop,0.81
+4.4-type-binfbp-sibsp-nop,0.79
+5.0-type-binfbp-sibsp-dec,0.81
+5.2-type-binfbp-sibsp-dec,0.79
+5.3-type-binfbp-sibsp-dec,0.80
+5.4-type-binfbp-sibsp-dec,0.78
+'[v/ /*]',''
+
+
+Key,
+[1],'lazy.IBk \'-K 8 -W 0 -A \\\"weka.core.neighboursearch.LinearNNSearch -A \\\\\\\"weka.core.EuclideanDistance -R first-last\\\\\\\"\\\"\' -3080186098777067172'
+

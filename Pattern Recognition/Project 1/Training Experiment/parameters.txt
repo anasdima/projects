@@ -1,0 +1,4 @@
+Training method: Cross Validation - 10 folds
+Datasets: 0.Datasets/1.Datasets-type2/2.Datasets-binfp - All
+Algorithms: algorithms.png
+Iterations: 10
